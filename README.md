@@ -1,7 +1,6 @@
 glendasay
 =========
 
-A simple 9P fileserver that accepts "say" commands. 
 
           __
          (  \
