@@ -17,3 +17,10 @@ glendasay
           /'\         . \
           "--^--.__,\_)-'
 
+```sh
+% ./glendasay -m /n/glendasay # default mountpoint
+% echo hello world > /n/glendasay/ctl
+. . . 
+% fortune > /n/glendasay/ctl # redirect fortune's output 
+. . .
+```
