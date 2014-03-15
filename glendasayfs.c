@@ -6,32 +6,46 @@
 #include <fcall.h>
 #include <thread.h>
 #include <9p.h>
+#include <stdio.h>
 
 Tree *glendatree;
 typedef enum {QCTL} qpath;
 
-Srv fs = {
-    //.open = fsopen,
-    .read = fsread,
-    .write= fswrite
-};
-
 /*
+ * glendasayfs only supports one operation.
  * 0222 /ctl
  *      say <n>
+ *
+ * e.g.
+ * echo hello world > /n/glendasay/ctl
+ * (glenda says hello world)
+ * fortune > /n/glendasay/ctl
+ * (glenda says whatever fortune returned)
  */
 
-char*
+    char*
 ctlparse(char *line,  int len)
 {
-    /* line is not null terminated */
-    if(strncmp(line, "say", 3) == 0){
-
- 	fprint(1,"(\\(\\ \n");
- 	fprint(1,"( . .)\n");
- 	fprint(1," | ° ¡\n");
- 	fprint(1," ¿   ;\n");
- 	fprint(1,"c?.UJ\n");
+    char text[80];
+    if (sscanf(line, "%[^\t\n]", text) == 1) {
+	fprint(1,"\n");
+	fprint(1,"        __\n");
+	fprint(1,"       (  \\\n");
+	fprint(1," __    \\   \\\n");
+	fprint(1,"(  *-_ \\ .-`----._\n");
+	fprint(1," `-_  *v*        *-\n");
+	fprint(1,"    *Y*            *.     <");
+	fprint(1,text);
+	fprint(1,">\n");
+	fprint(1,"     |               |   /\n");
+	fprint(1,"     |       o    o  |  /\n");
+	fprint(1,"     |         .<>.  |\n");
+	fprint(1,"      \\        *Ll* |\n");
+	fprint(1,"       |            .`\n");
+	fprint(1,"       |            |\n");
+	fprint(1,"       (            /\n");
+	fprint(1,"      /'\                 . \\n");
+	fprint(1,"      \``--^--.__,\_)-'\n");
     } 
     /* could potentially add more commands in a switch */
     return nil;
@@ -50,10 +64,6 @@ fswrite(Req *r) {
     respond(r, nil);
 }
 
-void
-fsread(Req *r) {
-    return nil;
-}
 
 void usage(void)
 {
@@ -61,7 +71,13 @@ void usage(void)
     exits("usage");
 }
 
-void
+Srv fs = {
+    //.open = fsopen,
+    //.read = fsread,
+    .write= fswrite
+};
+
+    void
 main(int argc,char *argv[])
 {
     char *mntpt = "/n/glendasay";
