@@ -11,11 +11,10 @@
 Tree *glendatree;
 typedef enum {QCTL} qpath;
 
-/*
- * glendasayfs only supports one operation.
+/* glendasayfs only supports one operation.
  * 0222 /ctl
- *      say <n>
- *
+ *    	say <n>
+ * 
  * e.g.
  * echo hello world > /n/glendasay/ctl
  * (glenda says hello world)
@@ -23,12 +22,12 @@ typedef enum {QCTL} qpath;
  * (glenda says whatever fortune returned)
  */
 
-    char*
+char*
 ctlparse(char *line,  int len)
 {
     char text[80];
+    /* line is not null terminated */
     if (sscanf(line, "%[^\t\n]", text) == 1) {
-	fprint(1,"\n");
 	fprint(1,"        __\n");
 	fprint(1,"       (  \\\n");
 	fprint(1," __    \\   \\\n");
@@ -44,7 +43,7 @@ ctlparse(char *line,  int len)
 	fprint(1,"       |            .`\n");
 	fprint(1,"       |            |\n");
 	fprint(1,"       (            /\n");
-	fprint(1,"      /'\                 . \\n");
+	fprint(1,"      ('\          . \\ \n");
 	fprint(1,"      \``--^--.__,\_)-'\n");
     } 
     /* could potentially add more commands in a switch */
@@ -77,7 +76,7 @@ Srv fs = {
     .write= fswrite
 };
 
-    void
+void
 main(int argc,char *argv[])
 {
     char *mntpt = "/n/glendasay";
