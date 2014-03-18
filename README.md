@@ -24,3 +24,6 @@ glendasay
 % fortune > /n/glendasay/ctl # redirect fortune's output 
 . . .
 ```
+
+TODO:
+- Support longer text > 1 line (line wrap)
